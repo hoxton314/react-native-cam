@@ -22,11 +22,11 @@ export default class MainScreen extends Component {
                     func={() => { this.props.navigation.navigate("galerylist") }}
                     styles={{ width: 300, marginLeft: 15, height: 100 }}
                 />
-                <Text>show gallery pictures</Text>
-                <Text>take pictures</Text>
-                <Text>save photo to device</Text>
-                <Text>delete photo from device</Text>
-                <Text>share photo</Text>
+                <Text style={styles.text}>show gallery pictures</Text>
+                <Text style={styles.text}>take pictures</Text>
+                <Text style={styles.text}>save photo to device</Text>
+                <Text style={styles.text}>delete photo from device</Text>
+                <Text style={styles.text}>share photo</Text>
             </View>
         )
     }
@@ -37,8 +37,13 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#3f5ca8'
         //flexDirection: 'column',
         //marginTop: 20
+    },
+    text: {
+        color: 'white',
+        fontSize: 22
     }
 }
 

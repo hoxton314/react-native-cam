@@ -9,7 +9,8 @@ export default class GaleryScreen extends Component {
         this.props = props
         this.state = {
             images: [],
-            columns: 5
+            columns: 5,
+            selected: []
         }
 
         this.style = StyleSheet.create({
@@ -32,7 +33,7 @@ export default class GaleryScreen extends Component {
 
     async setAllPhotos() {
         let obj = await MediaLibrary.getAssetsAsync({
-            first: 100,
+            first: 1000,
             mediaType: 'photo'
         })
 
@@ -51,6 +52,27 @@ export default class GaleryScreen extends Component {
             images: obj
         })
     }
+
+    selectImage(id) {
+        this.setState({
+            selected: this.state.selected.concat(id)
+        })
+    }
+
+    unselectImage(id) {
+        this.setState({
+            selected: this.state.selected.filter(el => el !== id)
+        })
+    }
+
+    async removeSelected() {
+        if (this.state.selected.length === 0) alert('Please select some images first!')
+        else {
+            await MediaLibrary.deleteAssetsAsync(this.state.selected)
+            await this.setAllPhotos()
+        }
+    }
+
 
     render() {
         return (
@@ -74,28 +96,56 @@ export default class GaleryScreen extends Component {
                             }))
                         }}
                         title='Grid/List'
-                        color='#FFC107'
+                        color='#7289da'
                     />
                     <Button
-                        onPress={() => this.props.navigation.navigate('camera')}
+                        onPress={() => this.props.navigation.navigate('camera', this.setAllPhotos.bind(this))}
                         title='open camera'
-                        color='#FFC107'
+                        color='#7289da'
                     />
                     <Button
-                        onPress={() => alert(this.state.columns)}
+                        onPress={async () => await this.removeSelected()}
                         title='Remove selected'
-                        color='#FFC107'
+                        color='#7289da'
                     />
                 </View>
-                <View style={{}}>
-                    <FlatList
+                {this.state.columns === 1
+                    ? <FlatList
                         key={1}
                         data={this.state.images}
-                        renderItem={({ item }) => <Item data={item} columns={this.state.columns} />}
+                        renderItem={({ item }) => {
+                            return <Item
+                                data={item}
+                                navigation={this.props.navigation}
+                                refresh={this.setAllPhotos.bind(this)}
+                                select={this.selectImage.bind(this)}
+                                unselect={this.unselectImage.bind(this)}
+                                selected={this.state.selected.some(el => el == item.id)}
+                            />
+                        }
+                        }
                         keyExtractor={item => item.id}
                         numColumns={1}
                     />
-                </View>
+                    : <FlatList
+                        columnWrapperStyle={{ justifyContent: 'space-evenly' }}
+                        key={5}
+                        data={this.state.images}
+                        renderItem={({ item }) => {
+                            return <Item
+                                data={item}
+                                navigation={this.props.navigation}
+                                refresh={this.setAllPhotos.bind(this)}
+                                select={this.selectImage.bind(this)}
+                                unselect={this.unselectImage.bind(this)}
+                                selected={this.state.selected.some(el => el == item.id)}
+                            />
+                        }
+                        }
+                        keyExtractor={item => item.id}
+                        numColumns={5}
+                    />
+                }
             </View>
         )
     }

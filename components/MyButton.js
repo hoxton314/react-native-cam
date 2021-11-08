@@ -21,7 +21,8 @@ export default class MyButton extends Component {
     render() {
         const styles = StyleSheet.create({
             text: {
-                marginTop: 30,
+                paddingTop: 16,
+                marginTop: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
                 flex: 1,

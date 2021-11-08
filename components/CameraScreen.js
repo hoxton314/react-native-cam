@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import { Camera } from "expo-camera";
 import { BackHandler } from "react-native"
-
+import * as MediaLibrary from "expo-media-library";
 export default class CameraScreen extends Component {
     constructor(props) {
-        super(props);
+        super(props)
+        this.props = props
+
         this.state = {
             hasCameraPermission: null,         // przydzielone uprawnienia do używania kamery
             type: Camera.Constants.Type.back,  // typ kamery
         };
+
+        console.log(this.props.route.params)
     }
 
     async componentDidMount() {
@@ -29,8 +33,17 @@ export default class CameraScreen extends Component {
         this.props.navigation.goBack()
         return true;
     }
+    async useCam() {
+        if (this.camera) {
+            let photo = await this.camera.takePictureAsync()
+            await MediaLibrary.createAssetAsync(photo.uri)
+            alert('Photo has been taken')
+
+            this.props.route.params()
+        }
+    }
     render() {
-        const { hasCameraPermission } = this.state; // podstawienie zmiennej ze state
+        const hasCameraPermission = this.state.hasCameraPermission; // podstawienie zmiennej ze state
         if (hasCameraPermission == null) {
             return <View />;
         } else if (hasCameraPermission == false) {
@@ -58,15 +71,9 @@ export default class CameraScreen extends Component {
                                 <Text style={{ fontSize: 70, marginTop: -20 }}>↶</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={async () => {
-                                    if (this.camera) {
-                                        let foto = await this.camera.takePictureAsync();
-                                        let asset = await MediaLibrary.createAssetAsync(foto.uri); // domyślnie zapisuje w folderze DCIM
-                                        alert(JSON.stringify(asset, null, 4))
-                                    }
-                                }}
+                                onPress={this.useCam.bind(this)}
                                 style={styles.roundButton}>
-                                <Text style={{ fontSize: 70, marginTop: -10 }}>+</Text>
+                                <Text style={{ fontSize: 70, marginTop: -14 }}>✚</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -93,6 +100,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         borderRadius: 100,
-        backgroundColor: 'orange',
+        backgroundColor: '#7289da',
     },
 });

@@ -25,7 +25,7 @@ export default class App extends React.Component {
         <Stack.Navigator>
           <Stack.Screen name="main" component={MainScreen} options={screenOpt.main} />
           <Stack.Screen name="galerylist" component={GaleryScreen} options={screenOpt.galerylist} />
-          <Stack.Screen name="camera" component={CameraScreen} options={screenOpt.camera} initialParams={{ camera: 'test' }} />
+          <Stack.Screen name="camera" component={CameraScreen} options={screenOpt.camera} />
           <Stack.Screen name="details" component={DetailsScreen} options={screenOpt.details} initialParams={{ photo: 'test' }} />
         </Stack.Navigator>
       </NavigationContainer>
