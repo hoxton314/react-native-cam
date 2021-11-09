@@ -133,6 +133,7 @@ export default class GaleryScreen extends Component {
                         data={this.state.images}
                         renderItem={({ item }) => {
                             return <Item
+                                columns={this.state.columns}
                                 data={item}
                                 navigation={this.props.navigation}
                                 refresh={this.setAllPhotos.bind(this)}
