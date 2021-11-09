@@ -14,9 +14,13 @@ export default class GaleryScreen extends Component {
         }
 
         this.style = StyleSheet.create({
-            buttonContainer: {
+            buttons: {
+                overflow: "hidden",
+                borderRadius: 100,
                 flexDirection: 'row',
-                justifyContent: 'space-evenly'
+                justifyContent: 'space-between',
+                alignItems: 'stretch',
+                alignSelf: 'stretch'
             }
         })
     }
@@ -77,8 +81,9 @@ export default class GaleryScreen extends Component {
     render() {
         return (
             <View>
-                <View style={this.style.buttonContainer}>
+                <View style={this.style.buttons}>
                     <Button
+
                         onPress={() => {
                             this.setState({
                                 columns: this.state.columns === 1 ? 5 : 1
