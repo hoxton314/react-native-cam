@@ -16,15 +16,14 @@ export default class CameraScreen extends Component {
             pos: new Animated.Value(500)
         };
 
-        console.log(this.props.route.params)
-        this.toggle()
+
     }
 
     async componentDidMount() {
         let { status } = await Camera.requestCameraPermissionsAsync();
         this.setState({ hasCameraPermission: status == 'granted' });
-
         BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+        this.toggle()
     }
 
     componentWillUnmount() {
@@ -36,11 +35,6 @@ export default class CameraScreen extends Component {
         }
     }
     handleBackPress = () => {
-
-        //tutaj wywołanie funkcji odświeżającej gallery, przekazanej w props-ach
-        //...
-        //powrót do ekranu poprzedniego
-
         if (this.state.settingsFlag) {
             console.log(this.state.settingsFlag)
             this.setState({ settingsFlag: false })
@@ -59,6 +53,7 @@ export default class CameraScreen extends Component {
             this.props.route.params()
         }
     }
+
     toggle() {
         let toPos
         if (this.isHidden) toPos = 0; else toPos = 500
@@ -120,7 +115,7 @@ export default class CameraScreen extends Component {
 
                     </Camera >
 
-                    <Settings pos={this.state.pos} toggle={this.toggle.bind(this)} />
+                    <Settings pos={this.state.pos} toggle={() => { this.setState({ settingsFlag: false }) }} />
 
                 </View >
             );

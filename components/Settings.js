@@ -16,7 +16,7 @@ export default class Settings extends Component {
                             { translateY: this.props.pos }
                         ]
                     }]} >
-                <Button onPress={this.props.toggle} title='▼' color='#7289da' style={styles.back} accessibilityLabel="Learn more about this purple button" />
+                <Button onPress={this.props.toggle} title='▼' color='#7289da' style={styles.back} />
                 <RadioGroup
                     change={this.change}
                     data={[1, 2, 3, 4]}
