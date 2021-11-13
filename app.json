@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-geo",
-    "slug": "react-native-geo",
+    "name": "react-native-cam",
+    "slug": "react-native-cam",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

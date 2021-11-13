@@ -23,6 +23,13 @@ export default class RadioButton extends Component {
                 backgroundColor: '#7289da',
                 borderRadius: 100,
                 display: this.props.selected ? 'flex' : 'none'
+            },
+            text: {
+                color: 'white'
+            },
+            textContainer: {
+                justifyContent: 'center',
+                marginLeft: 10
             }
         })
     }
@@ -36,7 +43,7 @@ export default class RadioButton extends Component {
                 <TouchableOpacity onPress={this.onTouch.bind(this)}>
                     <View style={this.styles.roundBack}><View style={this.styles.round}></View></View>
                 </TouchableOpacity>
-                <Text>{this.props.text}</Text>
+                <View style={this.styles.textContainer}><Text style={this.styles.text}>{this.props.text}</Text></View>
             </View>
         )
     }

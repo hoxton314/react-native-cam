@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, Animated } from 'react-native'
+import { Text, StyleSheet, View, Animated, Button } from 'react-native'
 import RadioGroup from './RadioGroup'
 export default class Settings extends Component {
     constructor(props) {
@@ -16,11 +16,23 @@ export default class Settings extends Component {
                             { translateY: this.props.pos }
                         ]
                     }]} >
-                <Text>--------------------------------</Text>
+                <Button onPress={this.props.toggle} title='▼' color='#7289da' style={styles.back} accessibilityLabel="Learn more about this purple button" />
                 <RadioGroup
                     change={this.change}
                     data={[1, 2, 3, 4]}
-                    groupName="RADIOGROUP TITLE" />
+                    groupName="Ratio" />
+                <RadioGroup
+                    change={this.change}
+                    data={[1, 2, 3, 4]}
+                    groupName="White Balance" />
+                <RadioGroup
+                    change={this.change}
+                    data={[1, 2, 3, 4]}
+                    groupName="Picture Size" />
+                <RadioGroup
+                    change={this.change}
+                    data={[1, 2, 3, 4]}
+                    groupName="Flash Mode" />
             </Animated.View>
         )
     }
@@ -32,7 +44,12 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: '#99aab5',
+        backgroundColor: 'rgba(44, 47, 51,0.5)',
         height: 500,
+    },
+    back: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
     }
 })

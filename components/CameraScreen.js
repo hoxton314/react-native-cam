@@ -120,7 +120,7 @@ export default class CameraScreen extends Component {
 
                     </Camera >
 
-                    <Settings pos={this.state.pos} />
+                    <Settings pos={this.state.pos} toggle={this.toggle.bind(this)} />
 
                 </View >
             );
