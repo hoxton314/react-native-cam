@@ -115,6 +115,13 @@ export default class CameraScreen extends Component {
             { settingsFlag: !this.isHidden }
         )
     }
+
+    displaySettings() {
+        if (this.state.camData.fm.length > 1) {
+            return (<Settings toggled={this.state.settingsFlag} pos={this.state.pos} toggle={() => { this.setState({ settingsFlag: false }) }} changeSet={this.changeCameraSetting.bind(this)} data={this.state.camData} />)
+        }
+        return <View></View>
+    }
     render() {
         const hasCameraPermission = this.state.hasCameraPermission; // podstawienie zmiennej ze state
         if (hasCameraPermission == null) {
@@ -165,7 +172,7 @@ export default class CameraScreen extends Component {
 
                     </Camera >
 
-                    <Settings toggled={this.state.settingsFlag} pos={this.state.pos} toggle={() => { this.setState({ settingsFlag: false }) }} changeSet={this.changeCameraSetting.bind(this)} data={this.state.camData} />
+                    {this.displaySettings()}
 
                 </View >
             );

@@ -1,36 +1,30 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, Animated, Button, ScrollView, Dimensions } from 'react-native'
+import { StyleSheet, Animated, Button, ScrollView, Dimensions } from 'react-native'
 import RadioGroup from './RadioGroup'
 export default class Settings extends Component {
     constructor(props) {
         super(props)
-        //console.log(this.props.data)
         this.state = {
             data: this.props.data
         }
     }
     componentDidMount() {
-        // this.setState({ refreshing: true });
-
-        // setTimeout(() => { this.setState({ refreshing: true }); }, 1000)
     }
-    componentDidUpdate(prevProps) {
-        //this.props.changeSet({ wb: 3 })
-        if (prevProps.data != this.props.data) {
-            this.setState({ data: this.props.data });
-            console.log(this.props.data)
-        }
-        if (prevProps.toggled != this.props.toggled) {
-            console.log(this.state.data)
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.data != this.props.data) {
+    //         this.setState({ data: this.props.data });
+    //         console.log("===========DATA SETTINGS CHANGE===========")
+    //         console.log(this.props.data)
 
+    //     }
+    //     if (prevProps.toggled != this.props.toggled) {
+    //         console.log(this.state.data)
+    //         this.reRender()
+    //     }
+    // }
 
     render() {
-
-
         return (
-
             <Animated.View
                 style={[
                     styles.animatedView,
