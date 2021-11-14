@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity, Animated } from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity, Animated, Dimensions } from 'react-native'
 import { Camera } from "expo-camera";
 import { BackHandler } from "react-native"
 import * as MediaLibrary from "expo-media-library";
@@ -13,25 +13,68 @@ export default class CameraScreen extends Component {
             hasCameraPermission: null,         // przydzielone uprawnienia do używania kamery
             type: Camera.Constants.Type.back,  // typ kamery
             settingsFlag: false,
-            pos: new Animated.Value(500)
+            notFirstLoad: true,
+            pos: new Animated.Value(Dimensions.get('window').height / 1.4),
+            ratio: '16:9',
+            ps: '1920x1080',
+            wb: 1,
+            fm: 3,
+            camData: { wb: [0], wbLabels: ['auto'], fm: [0], fmLabels: ['auto'], ratio: ['16:9'], ps: ['1920x1080'] }
         };
 
 
     }
+    changeCameraSetting(settingObj) {
+        this.setState(settingObj)
 
+    }
     async componentDidMount() {
         let { status } = await Camera.requestCameraPermissionsAsync();
         this.setState({ hasCameraPermission: status == 'granted' });
         BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
         this.toggle()
+
+
+
     }
 
     componentWillUnmount() {
         BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
     }
-    componentDidUpdate(prevProps, prevState) {
+    async componentDidUpdate(prevProps, prevState) {
         if (prevState.settingsFlag != this.state.settingsFlag && !this.state.settingsFlag) {
             this.toggle()
+        }
+        if (this.state.settingsFlag && this.state.notFirstLoad) {
+            let fm = Camera.Constants.FlashMode
+            let arrFM = []
+            let arrFMLabels = []
+            for (let mode in fm) {
+                arrFM.push(fm[mode])
+                arrFMLabels.push(mode)
+            }
+            let wb = Camera.Constants.WhiteBalance
+
+            let arrWB = []
+            let arrWBLabels = []
+            for (let mode in wb) {
+                arrWB.push(wb[mode])
+                arrWBLabels.push(mode)
+            }
+
+            this.setState({
+                notFirstLoad: false,
+                camData: {
+                    fm: arrFM,
+                    fmLabels: arrFMLabels,
+                    wb: arrWB,
+                    wbLabels: arrWBLabels,
+                    ratio: ['16:9', '11:9', '4:3', '3:2', '2:1'],
+                    ps: await this.camera.getAvailablePictureSizesAsync(this.state.ratio)
+                }
+            })
+
+
         }
     }
     handleBackPress = () => {
@@ -56,7 +99,7 @@ export default class CameraScreen extends Component {
 
     toggle() {
         let toPos
-        if (this.isHidden) toPos = 0; else toPos = 500
+        if (this.isHidden) toPos = 0; else toPos = Dimensions.get('window').height / 1.4
         Animated.spring(
             this.state.pos,
             {
@@ -82,6 +125,13 @@ export default class CameraScreen extends Component {
             return (
                 <View style={{ flex: 1 }}>
                     <Camera
+                        onCameraReady={() => console.log("camera ready")}
+                        ratio={this.state.ratio}
+                        whiteBalance={this.state.wb}
+                        pictureSize={this.state.ps}
+                        flashMode={this.state.fm}
+
+
                         ref={ref => {
                             this.camera = ref; // Uwaga: referencja do kamery używana później
                         }}
@@ -106,7 +156,7 @@ export default class CameraScreen extends Component {
                                 <Text style={{ fontSize: 70, marginTop: -14 }}>✚</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={() => { this.toggle() }}
+                                onPress={() => { this.state.settingsFlag ? this.setState({ settingsFlag: false }) : this.toggle() }}
                                 style={styles.roundButtonArrow}>
                                 <Text style={{ fontSize: 45, marginTop: -12, marginLeft: -1 }}>⚙</Text>
                             </TouchableOpacity>
@@ -115,7 +165,7 @@ export default class CameraScreen extends Component {
 
                     </Camera >
 
-                    <Settings pos={this.state.pos} toggle={() => { this.setState({ settingsFlag: false }) }} />
+                    <Settings toggled={this.state.settingsFlag} pos={this.state.pos} toggle={() => { this.setState({ settingsFlag: false }) }} changeSet={this.changeCameraSetting.bind(this)} data={this.state.camData} />
 
                 </View >
             );

@@ -10,8 +10,8 @@ export default class RadioButton extends Component {
                 flexDirection: 'row'
             },
             roundBack: {
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
                 backgroundColor: '#3f5ca8',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -30,20 +30,33 @@ export default class RadioButton extends Component {
             textContainer: {
                 justifyContent: 'center',
                 marginLeft: 10
+            },
+            buttonContainer: {
+                width: 50,
+                height: 50,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                alignContent: 'center'
             }
+
         })
     }
     onTouch() {
         this.props.func(this.props.text)
     }
     render() {
-        const data = this.props.text
         return (
             <View style={this.styles.main}>
-                <TouchableOpacity onPress={this.onTouch.bind(this)}>
-                    <View style={this.styles.roundBack}><View style={this.styles.round}></View></View>
-                </TouchableOpacity>
-                <View style={this.styles.textContainer}><Text style={this.styles.text}>{this.props.text}</Text></View>
+                <View style={this.styles.buttonContainer}>
+                    <TouchableOpacity onPress={this.onTouch.bind(this)}>
+                        <View style={this.styles.roundBack}><View style={this.styles.round}></View></View>
+                    </TouchableOpacity>
+                </View>
+                <View style={this.styles.textContainer}>
+
+                    <Text style={this.styles.text}>{(this.props.label === undefined ? '' : this.props.label + ': ') + this.props.text}</Text>
+                </View>
             </View>
         )
     }
