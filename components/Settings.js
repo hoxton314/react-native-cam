@@ -5,13 +5,17 @@ export default class Settings extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: this.props.data
+            data: this.props.data,
+            selRatio: this.props.default.ratio
         }
     }
     componentDidMount() {
+console.log(this.state.data.ps.filter(obj=>obj.ratio==this.props.default.ratio).map(obj=>obj.res)[0])
     }
-
-
+    componentDidUpdate(){
+        console.log(this.props.default.ratio)
+    }
+//.split(',')
     render() {
         return (
             <Animated.View
@@ -23,7 +27,7 @@ export default class Settings extends Component {
                         ]
                     }]} >
                 <Button onPress={this.props.toggle} title='▼' color='#7289da' style={styles.back} />
-                <ScrollView >
+                <ScrollView key={this.props.default.ratio}>
                     <RadioGroup
                         change={this.props.changeSet}
                         //data={['2:1', '3:2', '4:3', '11:9', '16:9']}
@@ -44,7 +48,7 @@ export default class Settings extends Component {
                     />
                     <RadioGroup
                         change={this.props.changeSet}
-                        data={this.state.data.ps}
+                        data={this.state.data.ps.filter(obj=>obj.ratio==this.props.default.ratio).map(obj=>obj.res)[0]}
                         setting='ps'
                         groupName="Picture Size"
                         default={this.props.default.ps}

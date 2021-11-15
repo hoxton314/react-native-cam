@@ -61,7 +61,12 @@ export default class CameraScreen extends Component {
                 arrWB.push(wb[mode])
                 arrWBLabels.push(mode)
             }
-
+            let ratios = ['16:9', '11:9', '4:3', '3:2', '2:1']
+            let resolutions = []
+            for(let ratio of ratios){
+                resolutions.push({ratio: ratio, res: await this.camera.getAvailablePictureSizesAsync(ratio)})
+            }
+            //console.log(resolutions)
             this.setState({
                 notFirstLoad: false,
                 camData: {
@@ -70,13 +75,14 @@ export default class CameraScreen extends Component {
                     wb: arrWB,
                     wbLabels: arrWBLabels,
                     ratio: ['16:9', '11:9', '4:3', '3:2', '2:1'],
-                    ps: await this.camera.getAvailablePictureSizesAsync(this.state.ratio)
+                    ps: resolutions
                 }
             })
 
 
         }
     }
+
     handleBackPress = () => {
         if (this.state.settingsFlag) {
             console.log(this.state.settingsFlag)
