@@ -10,18 +10,7 @@ export default class Settings extends Component {
     }
     componentDidMount() {
     }
-    // componentDidUpdate(prevProps) {
-    //     if (prevProps.data != this.props.data) {
-    //         this.setState({ data: this.props.data });
-    //         console.log("===========DATA SETTINGS CHANGE===========")
-    //         console.log(this.props.data)
 
-    //     }
-    //     if (prevProps.toggled != this.props.toggled) {
-    //         console.log(this.state.data)
-    //         this.reRender()
-    //     }
-    // }
 
     render() {
         return (
@@ -40,7 +29,9 @@ export default class Settings extends Component {
                         //data={['2:1', '3:2', '4:3', '11:9', '16:9']}
                         data={this.state.data.ratio}
                         setting='ratio'
-                        groupName="Ratio" />
+                        groupName="Ratio"
+                        default={this.props.default.ratio}
+                    />
                     <RadioGroup
                         change={this.props.changeSet}
                         //labels={['auto', 'cloudy', 'sunny', 'shadow', 'fluorescent', 'incandescent']}
@@ -48,18 +39,24 @@ export default class Settings extends Component {
                         labels={this.state.data.wbLabels}
                         data={this.state.data.wb}
                         setting='wb'
-                        groupName="White Balance" />
+                        groupName="White Balance"
+                        default={this.props.default.wb}
+                    />
                     <RadioGroup
                         change={this.props.changeSet}
                         data={this.state.data.ps}
                         setting='ps'
-                        groupName="Picture Size" />
+                        groupName="Picture Size"
+                        default={this.props.default.ps}
+                    />
                     <RadioGroup
                         change={this.props.changeSet}
                         labels={this.state.data.fmLabels}
                         data={this.state.data.fm}
                         setting='fm'
-                        groupName="Flash Mode" />
+                        groupName="Flash Mode"
+                        default={this.props.default.fm}
+                    />
                 </ScrollView>
             </Animated.View >
         )

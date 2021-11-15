@@ -7,7 +7,7 @@ export default class RadioGroup extends Component {
         super(props)
         this.state = {
             data: this.props.data,
-            selected: this.props.data[0],
+            selected: this.props.default,
         }
         //console.log(this.state.data)
     }

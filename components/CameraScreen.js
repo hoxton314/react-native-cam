@@ -17,7 +17,7 @@ export default class CameraScreen extends Component {
             pos: new Animated.Value(Dimensions.get('window').height / 1.4),
             ratio: '16:9',
             ps: '1920x1080',
-            wb: 1,
+            wb: 0,
             fm: 3,
             camData: { wb: [0], wbLabels: ['auto'], fm: [0], fmLabels: ['auto'], ratio: ['16:9'], ps: ['1920x1080'] }
         };
@@ -118,9 +118,9 @@ export default class CameraScreen extends Component {
 
     displaySettings() {
         if (this.state.camData.fm.length > 1) {
-            return (<Settings toggled={this.state.settingsFlag} pos={this.state.pos} toggle={() => { this.setState({ settingsFlag: false }) }} changeSet={this.changeCameraSetting.bind(this)} data={this.state.camData} />)
+            return (<Settings toggled={this.state.settingsFlag} pos={this.state.pos} toggle={() => { this.setState({ settingsFlag: false }) }} changeSet={this.changeCameraSetting.bind(this)} data={this.state.camData} default={{ wb: this.state.wb, fm: this.state.fm, ratio: this.state.ratio, ps: this.state.ps }} />)
         }
-        return <View></View>
+        return null
     }
     render() {
         const hasCameraPermission = this.state.hasCameraPermission; // podstawienie zmiennej ze state
